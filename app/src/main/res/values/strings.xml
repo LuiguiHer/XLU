@@ -1,0 +1,70 @@
+<resources>
+
+    //Home Screen
+    <string name="image_poster">image poster movie</string>
+    <string name="top_movies">Top Movies</string>
+    <string name="new_movie">new</string>
+    <string name="new_movie_tittle">THE LAST OF US</string>
+    <string name="chapters">Chapters</string>
+    <string name="season">Seasons</string>
+    <string name="connection_error">Connection Error</string>
+
+
+    //Account screen
+    <string name="profile_image">Profile Image</string>
+    <string name="lists">Lists</string>
+    <string name="favorite">Favorite</string>
+
+    //Login Screen
+    <string name="email_not_registered">Email Not Registered</string>
+    <string name="password_incorrect">Password Incorrect</string>
+    <string name="forgot_Password">¿Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="access_denied">Access Denied</string>
+    <string name="google_logo">google logo</string>
+    <string name="facebook_logo">facebook logo</string>
+    <string name="apple_logo">apple logo</string>
+    <string name="you_need_a_account">¿you need a account?</string>
+    <string name="continue_like_guest">continue like guest</string>
+    <string name="or_sign_in_with">or Sign In with</string>
+
+
+    //SignUp Screen
+    <string name="user_name">User Name</string>
+    <string name="email_registered">Email Registered</string>
+    <string name="email">Email</string>
+    <string name="accept">Accept</string>
+    <string name="password_must_contain">password must contain 8 characters</string>
+
+    //Global
+    <string name="description_logo_app">Logo Xlu</string>
+    <string name="app_name">XLU</string>
+    <string name="User">User</string>
+    <string name="header_image">header image</string>
+    <string name="button_back">button back</string>
+    <string name="password">password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="icon_star">icon star</string>
+    <string name="icon_add">icon add</string>
+    <string name="icon_play">icon play</string>
+    <string name="icon_circle">icon circle</string>
+    <string name="score">Score</string>
+    <string name="Original_Title"> (Original Title)</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</resources>

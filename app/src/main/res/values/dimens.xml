@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dp200">200.dp</dimen>
+    <dimen name="dp120">120.dp</dimen>
+    <dimen name="dp60">60.dp</dimen>
+    <dimen name="dp50">50.dp</dimen>
+    <dimen name="dp40">40.dp</dimen>
+    <dimen name="dp20">20.dp</dimen>
+    <dimen name="dp18">18.dp</dimen>
+    <dimen name="dp15">15.dp</dimen>
+    <dimen name="dp10">10.dp</dimen>
+    <dimen name="dp5">5.dp</dimen>
+    <dimen name="dp3">3.dp</dimen>
+    <dimen name="dp2">2.dp</dimen>
+
+
+    <dimen name="signUp_dp90">90.dp</dimen>
+    <dimen name="signUp_dp50">50.dp</dimen>
+    <dimen name="signUp_dp40">40.dp</dimen>
+    <dimen name="signUp_dp20">20.dp</dimen>
+    <dimen name="signUp_dp18">18.dp</dimen>
+    <dimen name="signUp_dp15">15.dp</dimen>
+    <dimen name="signUp_dp10">10.dp</dimen>
+    <dimen name="signUp_dp5">5.dp</dimen>
+
+
+
+
+
+</resources>
