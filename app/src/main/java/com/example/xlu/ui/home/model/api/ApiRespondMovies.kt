@@ -1,5 +1,6 @@
-package com.example.xlu.ui.home.model
+package com.example.xlu.ui.home.model.api
 
+import com.example.xlu.ui.home.model.Movies
 
 
 data class ApiRespondMovies(

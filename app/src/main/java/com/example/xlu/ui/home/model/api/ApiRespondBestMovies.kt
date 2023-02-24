@@ -1,6 +1,6 @@
-package com.example.xlu.ui.home.model
+package com.example.xlu.ui.home.model.api
 
-import com.example.xlu.roomDB.model.BestMovies
+import com.example.xlu.ui.home.model.BestMovies
 
 data class ApiRespondBestMovies(
     val page:Int,

@@ -45,7 +45,7 @@ fun AccountScreen(viewModel: AccountViewModel){
     {
 
         Spacer(modifier = Modifier.padding(4.dp))
-        Icon(imageVector = Icons.Default.Settings,
+        Icon(painter = painterResource(id = R.drawable.icon_logout),
             contentDescription = null,
             tint = Color(0XFFFFFFFF),
             modifier = Modifier
@@ -63,7 +63,7 @@ fun AccountScreen(viewModel: AccountViewModel){
 @Composable
 fun DetailsProfile(){
     Column(modifier = Modifier
-        .background(Color(0xFFFFFFFF), shape = RoundedCornerShape(50.dp))
+        .background(Color(0xFFFFFFFF), shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
         .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
     )
     {

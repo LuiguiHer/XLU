@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "movies")
 data class Movies(
-    val adult: Boolean = false,
+    var adult: Boolean = false,
     val backdrop_path: String = "",
     val genre_ids: List<Int> = listOf(),
     @PrimaryKey val id: Int = 0,

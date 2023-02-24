@@ -29,7 +29,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.xlu.R
-import com.example.xlu.roomDB.model.BestMovies
+import com.example.xlu.ui.home.model.BestMovies
+import com.example.xlu.ui.home.model.MovieSelected
+import com.example.xlu.ui.home.ui.details.DetailMovieScreen
 import com.example.xlu.ui.theme.Roboto
 
 @Composable
@@ -37,6 +39,10 @@ fun HomeScreen(viewModel: HomeViewModel,navController:NavController) {
     viewModel.getMovies()
     val addToRoom: Boolean by viewModel.stateToAddRoom.observeAsState(initial = false)
     val errorConnection: Boolean by viewModel.errorConnection.observeAsState(initial = false)
+    val movieSelected: MovieSelected by viewModel.movieSelected.observeAsState(initial = MovieSelected())
+    if (movieSelected.title.isNotEmpty()){
+        DetailMovieScreen(movieSelected, viewModel, null )
+    }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -190,6 +196,7 @@ fun ItemTittleDescription(tittle:String, description: String){
 @Composable
 fun LoadListBestMovies(viewModel: HomeViewModel,navController: NavController){
     val movies:List<BestMovies> by viewModel.listFromRoom.observeAsState(initial = emptyList())
+
 
     if (movies.isNotEmpty()){
         Column(modifier = Modifier.padding(start = 15.dp)) {

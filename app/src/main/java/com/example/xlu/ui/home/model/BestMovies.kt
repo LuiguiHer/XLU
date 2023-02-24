@@ -1,4 +1,4 @@
-package com.example.xlu.roomDB.model
+package com.example.xlu.ui.home.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -28,16 +28,22 @@ import coil.compose.AsyncImage
 import com.example.xlu.ui.home.model.Movies
 import com.example.xlu.ui.theme.Roboto
 import com.example.xlu.R
+import com.example.xlu.ui.home.model.MovieSelected
+import com.example.xlu.ui.home.ui.details.DetailMovieScreen
 
 @Composable
-fun SearchScreen(viewModel: SearchViewModel,navController: NavController){
+fun SearchScreen(viewModel: SearchViewModel){
     viewModel.getMovies()
+    val movieSelected: MovieSelected by viewModel.movieSelected.observeAsState(initial = MovieSelected())
+    if (movieSelected.title.isNotEmpty()){
+        DetailMovieScreen(movieSelected, null, viewModel )
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         val search:String by viewModel.search.observeAsState(initial = "")
         SearchField(search){viewModel.onSearchChanged(it)}
         Spacer(modifier = Modifier.padding(bottom = 7.dp))
-        LoadingListMovies(viewModel,navController)
+        LoadingListMovies(viewModel)
     }
     viewModel.addMovieToRoom()
 
@@ -45,7 +51,7 @@ fun SearchScreen(viewModel: SearchViewModel,navController: NavController){
 
 
 @Composable
-fun LoadingListMovies(viewModel: SearchViewModel,navController: NavController){
+fun LoadingListMovies(viewModel: SearchViewModel){
     val movies:List<Movies> by viewModel.liveMoviesList.observeAsState(initial = emptyList())
 
     if (movies.isNotEmpty()){
@@ -55,18 +61,18 @@ fun LoadingListMovies(viewModel: SearchViewModel,navController: NavController){
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
             items(movies){movie ->
-                ListItemsMovies(movie, viewModel, navController)
+                ListItemsMovies(movie, viewModel)
             }
         }
     }
 }
 @Composable
-fun ListItemsMovies(movie:Movies,viewModel: SearchViewModel,navController: NavController){
+fun ListItemsMovies(movie:Movies,viewModel: SearchViewModel){
     val urlImage:String = viewModel.urlImage
     Row(modifier = Modifier
         .fillMaxWidth()
         .clickable {
-            viewModel.movieDetails(movie, navController)
+            viewModel.movieDetails(movie)
         }
     ) {
 

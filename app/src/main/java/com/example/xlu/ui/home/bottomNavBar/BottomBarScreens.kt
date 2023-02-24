@@ -30,14 +30,4 @@ sealed class BottomBarScreens(
         Utils.ACCOUNT,
         Icons.Filled.AccountCircle
     )
-    object DetailSearch: BottomBarScreens(
-        Utils.ROUTE_DETAILS_SEARCH,
-        Utils.DETAILS_MOVIE,
-        Icons.Filled.Info
-    )
-    object DetailHome: BottomBarScreens(
-        Utils.ROUTE_DETAILS_HOME,
-        Utils.DETAILS_MOVIE,
-        Icons.Filled.Info
-    )
 }
