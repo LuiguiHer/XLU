@@ -1,14 +1,14 @@
 package com.example.xlu.ui.home.ui
 
-import androidx.compose.foundation.Image
+import android.content.Context
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -16,25 +16,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.xlu.R
+import com.example.xlu.ui.sign_up.model.UserEntity
 import com.example.xlu.ui.theme.Roboto
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun AccountScreen(viewModel: AccountViewModel){
+fun AccountScreen(viewModel: AccountViewModel,context: Context){
     val auth = FirebaseAuth.getInstance()
     val currentUser by remember { mutableStateOf(auth.currentUser) }
     val email = currentUser?.email ?: ""
     viewModel.getUser(email)
-    val userName: String by viewModel.userName.observeAsState(initial = "")
-
-
+    val user by viewModel.remoteUser.observeAsState(initial = UserEntity())
 
 
     Column(modifier = Modifier
@@ -53,7 +54,7 @@ fun AccountScreen(viewModel: AccountViewModel){
                 .padding(end = 10.dp)
                 .clickable { viewModel.closedAuthUser() }
         )
-        PhotoProfile(userName)
+        PhotoProfile(user.name,context,viewModel,user.urlProfile)
         ItemsRecords()
         Spacer(modifier = Modifier.padding(8.dp))
         DetailsProfile()
@@ -67,7 +68,6 @@ fun DetailsProfile(){
         .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-
     }
 }
 
@@ -100,16 +100,26 @@ fun ItemRecord(title: String, record:Int){
     }
 }
 
+
 @Composable
-fun PhotoProfile(userName: String){
+fun PhotoProfile(userName: String,context: Context,viewModel: AccountViewModel,url:String){
+    val pickImage = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri !=  null){
+            viewModel.upLoadImageProfile(context,uri)
+        }
+    }
+
     Column(modifier = Modifier
         .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.profile_xlu),
-            contentDescription = stringResource(id = R.string.profile_image),
-            modifier = Modifier.size(100.dp)
+        AsyncImage(
+            model = url,
+            contentDescription = null,
+            modifier = Modifier
+                .size(150.dp)
+                .clip(shape = RoundedCornerShape(75.dp))
+                .clickable { pickImage.launch("image/*") }
         )
         Spacer(modifier = Modifier.padding(4.dp))
         Text(
@@ -121,3 +131,5 @@ fun PhotoProfile(userName: String){
         )
     }
 }
+
+

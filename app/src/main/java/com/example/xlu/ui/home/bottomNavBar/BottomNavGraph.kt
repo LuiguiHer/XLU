@@ -1,5 +1,6 @@
 package com.example.xlu.ui.home.bottomNavBar
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,7 +15,8 @@ fun BottomNavGraph(
     searchViewModel: SearchViewModel,
     homeViewModel: HomeViewModel,
     accountViewModel: AccountViewModel,
-    padding: PaddingValues
+    padding: PaddingValues,
+    context: Context
 ) {
     Column(modifier = Modifier.padding(padding))
     {
@@ -29,7 +31,7 @@ fun BottomNavGraph(
                 PlayScreen()
             }
             composable(route = BottomBarScreens.Account.route){
-                AccountScreen(accountViewModel)
+                AccountScreen(accountViewModel,context)
             }
 
         }

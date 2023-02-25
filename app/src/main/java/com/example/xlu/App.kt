@@ -32,7 +32,8 @@ fun App(
         BottomNavBar(
             searchViewModel,
             homeViewModel,
-            accountViewModel
+            accountViewModel,
+            mainActivity
         )
     } else {
         AppNavigation(signUpViewModel, loginViewModel, mainActivity, homeViewModel,signInLauncher)

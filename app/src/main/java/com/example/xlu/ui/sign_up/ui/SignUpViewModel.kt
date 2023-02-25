@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import java.util.UUID
 import javax.inject.Inject
 
 
@@ -103,7 +104,10 @@ class SignUpViewModel
     }
 
     private fun addNewUser(name: String, email: String, password: String) {
-        val user = UserEntity(name, email, password, tokenDevice.value!!)
+        val uuid = UUID.randomUUID()
+        val tokenUSer = uuid.toString()
+        val tokenDevice = tokenDevice.value!!
+        val user = UserEntity(name, email, password, tokenDevice,0,"",tokenUSer)
         userRepository.newUser(user)
     }
 

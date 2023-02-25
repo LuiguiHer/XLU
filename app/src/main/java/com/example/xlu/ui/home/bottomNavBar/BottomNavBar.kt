@@ -1,5 +1,6 @@
 package com.example.xlu.ui.home.bottomNavBar
 
+import android.content.Context
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -21,7 +22,8 @@ import com.example.xlu.ui.home.ui.SearchViewModel
 fun BottomNavBar(
     searchViewModel: SearchViewModel,
     homeViewModel: HomeViewModel,
-    accountViewModel: AccountViewModel
+    accountViewModel: AccountViewModel,
+    context: Context
 ){
     val navController = rememberNavController()
     val navigationItems = listOf(
@@ -38,7 +40,8 @@ fun BottomNavBar(
             searchViewModel,
             homeViewModel,
             accountViewModel,
-            padding
+            padding,
+            context
         )
     }
 }
