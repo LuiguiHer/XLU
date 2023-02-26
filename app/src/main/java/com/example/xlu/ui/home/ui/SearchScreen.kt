@@ -30,10 +30,13 @@ import com.example.xlu.ui.theme.Roboto
 import com.example.xlu.R
 import com.example.xlu.ui.home.model.MovieSelected
 import com.example.xlu.ui.home.ui.details.DetailMovieScreen
+import com.example.xlu.ui.utils.getCurrentUser
 
 @Composable
 fun SearchScreen(viewModel: SearchViewModel){
     viewModel.getMovies()
+    val email = getCurrentUser()
+    viewModel.getUser(email)
     val movieSelected: MovieSelected by viewModel.movieSelected.observeAsState(initial = MovieSelected())
     if (movieSelected.title.isNotEmpty()){
         DetailMovieScreen(movieSelected, null, viewModel )

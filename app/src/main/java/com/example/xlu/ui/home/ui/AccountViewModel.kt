@@ -31,8 +31,6 @@ class AccountViewModel
     private val docRef = db.collection("Users")
 
 
-    private val _updateImage = MutableLiveData<Boolean>()
-    val updateImage: LiveData<Boolean> = _updateImage
 
     private val _remoteUser = MutableLiveData<UserEntity>()
     val remoteUser: LiveData<UserEntity> = _remoteUser

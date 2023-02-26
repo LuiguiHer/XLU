@@ -16,6 +16,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,10 +35,15 @@ import com.example.xlu.ui.home.model.BestMovies
 import com.example.xlu.ui.home.model.MovieSelected
 import com.example.xlu.ui.home.ui.details.DetailMovieScreen
 import com.example.xlu.ui.theme.Roboto
+import com.example.xlu.ui.utils.getCurrentUser
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel,navController:NavController) {
     viewModel.getMovies()
+    val user = getCurrentUser()
+    viewModel.getUser(user)
+
     val addToRoom: Boolean by viewModel.stateToAddRoom.observeAsState(initial = false)
     val errorConnection: Boolean by viewModel.errorConnection.observeAsState(initial = false)
     val movieSelected: MovieSelected by viewModel.movieSelected.observeAsState(initial = MovieSelected())
@@ -58,6 +65,8 @@ fun HomeScreen(viewModel: HomeViewModel,navController:NavController) {
         Toast.makeText(LocalContext.current, stringResource(id = R.string.connection_error),Toast.LENGTH_SHORT).show()
     }
 }
+
+
 
 @Composable
 fun MovieTop(viewModel: HomeViewModel,navController: NavController){

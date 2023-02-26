@@ -27,13 +27,12 @@ import coil.compose.AsyncImage
 import com.example.xlu.R
 import com.example.xlu.ui.sign_up.model.UserEntity
 import com.example.xlu.ui.theme.Roboto
+import com.example.xlu.ui.utils.getCurrentUser
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun AccountScreen(viewModel: AccountViewModel,context: Context){
-    val auth = FirebaseAuth.getInstance()
-    val currentUser by remember { mutableStateOf(auth.currentUser) }
-    val email = currentUser?.email ?: ""
+    val email = getCurrentUser()
     viewModel.getUser(email)
     val user by viewModel.remoteUser.observeAsState(initial = UserEntity())
 

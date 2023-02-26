@@ -23,9 +23,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var currentUserLiveData: MutableLiveData<FirebaseUser>
     private val signUpViewModel: SignUpViewModel by viewModels()
     private val loginViewModel: LoginViewModel by viewModels()
-    private val searchViewModel: SearchViewModel by viewModels()
-    private val homeViewModel: HomeViewModel by viewModels()
     private val accountViewModel: AccountViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
 
     private val signInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()

@@ -10,6 +10,9 @@ import com.example.xlu.ui.home.model.MovieSelected
 import com.example.xlu.ui.home.model.Service.ApiServices
 import com.example.xlu.ui.home.model.Movies
 import com.example.xlu.ui.home.model.api.RetrofitConfig
+import com.example.xlu.ui.sign_up.data.repository.UserRepositoryFirebase
+import com.example.xlu.ui.sign_up.model.UserEntity
+import com.example.xlu.ui.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,11 +22,19 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel
     @Inject constructor(
-        private val repoRoom: RepositoryMovieRoom
+        private val repoRoom: RepositoryMovieRoom,
+        private val userRepository: UserRepositoryFirebase
     )
     : ViewModel(){
 
     val urlImage:String = RetrofitConfig.URL_IMAGE
+    private val iScope = CoroutineScope(Dispatchers.IO)
+
+    private val _remoteUser = MutableLiveData<UserEntity>()
+    private val remoteUser: LiveData<UserEntity> = _remoteUser
+
+    private val _isMyFavorite = MutableLiveData<Boolean>()
+    val isMyFavorite: LiveData<Boolean> = _isMyFavorite
 
     private val _movieSelected = MutableLiveData<MovieSelected>()
     val movieSelected: LiveData<MovieSelected> = _movieSelected
@@ -96,4 +107,56 @@ class SearchViewModel
     fun backFromDetails(){
         _movieSelected.value = MovieSelected()
     }
+
+    fun getUser(email: String) {
+        val remoteUser = UserEntity()
+        iScope.launch {
+            val dataUser = userRepository.getUser(email)
+            dataUser.get().addOnSuccessListener { user ->
+                if (user.exists()){
+                    remoteUser.name = user.getString(Utils.TABLE_LABEL_NAME)!!
+                    remoteUser.email = user.getString(Utils.TABLE_LABEL_EMAIL)!!
+                    remoteUser.password = user.getString(Utils.TABLE_LABEL_PASSWORD)!!
+                    remoteUser.codeUpdate = user.getLong(Utils.TABLE_LABEL_CODE_UPDATE)!!.toInt()
+                    remoteUser.urlProfile = user.getString(Utils.TABLE_LABEL_URL_PROFILE)!!
+                    remoteUser.tokenDevice = user.getString(Utils.TABLE_LABEL_TOKEN_DEVICE)!!
+                    remoteUser.tokenUser = user.getString(Utils.TABLE_LABEL_TOKEN_USER)!!
+                    _remoteUser.postValue(remoteUser)
+                }
+            }
+        }
+    }
+    fun addToMyFavoriteMovie(){
+        val movie = movieSelected.value ?: MovieSelected()
+        val user = remoteUser.value?.email ?: ""
+        iScope.launch {
+            userRepository.addToMyFavoriteMovie(user,movie)
+            getFavoriteMovie()
+        }
+    }
+
+    fun deleteMyFavoriteMovie(){
+        val movie = movieSelected.value ?: MovieSelected()
+        val user = remoteUser.value?.email ?: ""
+        iScope.launch {
+            userRepository.deleteMyFavoriteMovie(user,movie)
+            getFavoriteMovie()
+        }
+    }
+
+    fun getFavoriteMovie(){
+        val movie = movieSelected.value ?: MovieSelected()
+        val user = remoteUser.value?.email ?: ""
+        iScope.launch {
+            val getMovie = userRepository.getFavoriteMovie(user,movie)
+            getMovie.get().addOnSuccessListener {data ->
+                if (data.exists()){
+                    _isMyFavorite.postValue(true)
+                }else{
+                    _isMyFavorite.postValue(false)
+                }
+            }
+        }
+    }
+
 }
