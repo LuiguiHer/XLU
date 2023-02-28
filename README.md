@@ -3,31 +3,31 @@ Android app
 
 ![Logo](https://android.luher.engineer/XluApp/logo.png)
 
-##Login
+## Login
 ![Logo](https://android.luher.engineer/XluApp/login.png)
 
 
-##SignUp
+## SignUp
 ![Logo](https://android.luher.engineer/XluApp/SignUp.png)
 
 
-##Home
+## Home
 ![Logo](https://android.luher.engineer/XluApp/Home.png)
 
 
-##Search
+## Search
 ![Logo](https://android.luher.engineer/XluApp/Search.png)
 
 
-##Details
+## Details
 ![Logo](https://android.luher.engineer/XluApp/Details.png)
 
 
-##Add Movie to Favorite
+## Add Movie to Favorite
 ![Logo](https://android.luher.engineer/XluApp/AddFavoriteMovie.png)
 
 
-##Profile
+## Profile
 ![Logo](https://android.luher.engineer/XluApp/profile.png)
 
 
