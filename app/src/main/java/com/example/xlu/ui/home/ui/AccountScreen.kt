@@ -6,9 +6,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -25,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.xlu.R
+import com.example.xlu.ui.home.model.Movies
 import com.example.xlu.ui.sign_up.model.UserEntity
 import com.example.xlu.ui.theme.Roboto
 import com.example.xlu.ui.utils.getCurrentUser
@@ -34,7 +39,11 @@ import com.google.firebase.auth.FirebaseAuth
 fun AccountScreen(viewModel: AccountViewModel,context: Context){
     val email = getCurrentUser()
     viewModel.getUser(email)
+    val urlImage = viewModel.retrofit.URL_IMAGE_HD
     val user by viewModel.remoteUser.observeAsState(initial = UserEntity())
+    val listFavorite: List<Movies> by viewModel.listFavoriteMovies.observeAsState(initial = emptyList())
+    val countFavorite: Int by viewModel.countMovies.observeAsState(initial = 0)
+
 
 
     Column(modifier = Modifier
@@ -54,29 +63,59 @@ fun AccountScreen(viewModel: AccountViewModel,context: Context){
                 .clickable { viewModel.closedAuthUser() }
         )
         PhotoProfile(user.name,context,viewModel,user.urlProfile)
-        ItemsRecords()
+        ItemsRecords(countFavorite)
         Spacer(modifier = Modifier.padding(8.dp))
-        DetailsProfile()
+        DetailsProfile(urlImage,listFavorite)
     }
 }
 
 @Composable
-fun DetailsProfile(){
+fun DetailsProfile(url:String,movies: List<Movies>){
     Column(modifier = Modifier
         .background(Color(0xFFFFFFFF), shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
         .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
     )
     {
+        Column(modifier = Modifier.padding(10.dp)) {
+            Text(text = "Favorite Movies", fontSize = 20.sp)
+            Spacer(modifier = Modifier.padding(10.dp))
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                items(movies)
+                { movie ->
+                    ListItem(url,movie)
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun ItemsRecords(){
+fun ListItem(url: String,movie: Movies){
+    Column(modifier = Modifier.fillMaxHeight()) {
+        Column(modifier = Modifier
+            .width(100.dp)
+            .clickable { }
+        ) {
+            AsyncImage(
+                model = url + movie.poster_path,
+                contentDescription = stringResource(id = R.string.image_poster),
+                modifier = Modifier
+                    .size(150.dp)
+                    .clip(shape = RoundedCornerShape(15.dp))
+            )
+        }
+    }
+}
+
+@Composable
+fun ItemsRecords(favorite: Int){
     Row(modifier = Modifier.width(250.dp), horizontalArrangement = Arrangement.SpaceBetween)
     {
         ItemRecord(title = stringResource(id = R.string.score), record = 0)
         ItemRecord(title = stringResource(id = R.string.lists), record = 0)
-        ItemRecord(title = stringResource(id = R.string.favorite), record = 0)
+        ItemRecord(title = stringResource(id = R.string.favorite), record = favorite)
     }
 }
 
@@ -98,7 +137,6 @@ fun ItemRecord(title: String, record:Int){
         )
     }
 }
-
 
 @Composable
 fun PhotoProfile(userName: String,context: Context,viewModel: AccountViewModel,url:String){

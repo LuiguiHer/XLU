@@ -22,7 +22,7 @@ fun BottomNavGraph(
     {
         NavHost(navController, startDestination = BottomBarScreens.Home.route){
             composable(route = BottomBarScreens.Home.route){
-                HomeScreen(homeViewModel,navController)
+                HomeScreen(homeViewModel)
             }
             composable(route = BottomBarScreens.Search.route){
                 SearchScreen(searchViewModel)

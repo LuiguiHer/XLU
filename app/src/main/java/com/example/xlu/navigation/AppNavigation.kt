@@ -37,7 +37,7 @@ fun AppNavigation(
             SingUpScreen(navController,signUpViewModel)
         }
         composable(route= AppScreens.HomeScreen.route){
-            HomeScreen(homeViewModel,navController)
+            HomeScreen(homeViewModel)
         }
     }
 }

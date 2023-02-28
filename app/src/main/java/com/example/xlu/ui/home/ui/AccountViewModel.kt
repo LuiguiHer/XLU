@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.xlu.ui.home.model.Movies
+import com.example.xlu.ui.home.model.api.RetrofitConfig
 import com.example.xlu.ui.home.model.ftp.FTPClientWrapper
 import com.example.xlu.ui.sign_up.data.repository.UserRepositoryFirebase
 import com.example.xlu.ui.sign_up.model.UserEntity
@@ -13,7 +15,6 @@ import com.example.xlu.ui.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,11 +30,16 @@ class AccountViewModel
     private val auth = FirebaseAuth.getInstance()
     private val iScope = CoroutineScope(Dispatchers.IO)
     private val docRef = db.collection("Users")
-
-
+     val retrofit = RetrofitConfig
 
     private val _remoteUser = MutableLiveData<UserEntity>()
     val remoteUser: LiveData<UserEntity> = _remoteUser
+
+    private val _listFavoriteMovies = MutableLiveData<List<Movies>>()
+    val listFavoriteMovies: LiveData<List<Movies>> = _listFavoriteMovies
+
+    private val _countMovies = MutableLiveData<Int>()
+    val countMovies: LiveData<Int> = _countMovies
 
 
     fun upLoadImageProfile(context: Context,uri:Uri?){
@@ -85,9 +91,37 @@ class AccountViewModel
                     remoteUser.tokenDevice = user.getString(Utils.TABLE_LABEL_TOKEN_DEVICE)!!
                     remoteUser.tokenUser = user.getString(Utils.TABLE_LABEL_TOKEN_USER)!!
                     _remoteUser.postValue(remoteUser)
+                    getMyFavoriteMovies(remoteUser.email)
                 }
             }
         }
     }
+
+    private fun getMyFavoriteMovies(user:String){
+        val listMovie = mutableListOf<Movies>()
+        iScope.launch {
+            val favoriteMovies = userRepository.getListFavoriteMovies(user)
+            favoriteMovies.get().addOnSuccessListener { data ->
+                val list = data.documents
+                _countMovies.postValue(list.size)
+                if (list.isNotEmpty()){
+                    for (document in list){
+                        val doc = document.data
+                        val movie = Movies()
+                        movie.title = doc?.get("title").toString()
+                        movie.backdrop_path = doc?.get("backdrop_path").toString()
+                        movie.poster_path = doc?.get("poster_path").toString()
+                        movie.original_title = doc?.get("original_title").toString()
+                        movie.release_date = doc?.get("release_date").toString()
+                        movie.overview = doc?.get("overview").toString()
+                        movie.id = doc?.get("id_Movie").toString().toInt()
+                        listMovie.add(movie)
+                    }
+                }
+                _listFavoriteMovies.postValue(listMovie)
+            }
+        }
+    }
+
 }
 

@@ -86,7 +86,7 @@ class HomeViewModel
         }
     }
 
-    fun movieDetails(movie: BestMovies, navController: NavController) {
+    fun movieDetails(movie: BestMovies) {
         val movieSelected = castMovie(movie)
         _movieSelected.postValue(movieSelected)
     }

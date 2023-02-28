@@ -39,7 +39,7 @@ import com.example.xlu.ui.utils.getCurrentUser
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel,navController:NavController) {
+fun HomeScreen(viewModel: HomeViewModel) {
     viewModel.getMovies()
     val user = getCurrentUser()
     viewModel.getUser(user)
@@ -54,7 +54,7 @@ fun HomeScreen(viewModel: HomeViewModel,navController:NavController) {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Color(0xFFFFFFFF))) {
-        MovieTop(viewModel,navController)
+        MovieTop(viewModel)
 
     }
     if (addToRoom){
@@ -69,7 +69,7 @@ fun HomeScreen(viewModel: HomeViewModel,navController:NavController) {
 
 
 @Composable
-fun MovieTop(viewModel: HomeViewModel,navController: NavController){
+fun MovieTop(viewModel: HomeViewModel){
     Column(modifier = Modifier
         .fillMaxHeight()
         .fillMaxWidth())
@@ -81,7 +81,7 @@ fun MovieTop(viewModel: HomeViewModel,navController: NavController){
         Spacer(modifier = Modifier.padding(8.dp))
         TopMoviesListTitle()
         Spacer(modifier = Modifier.padding(8.dp))
-        LoadListBestMovies(viewModel, navController)
+        LoadListBestMovies(viewModel)
     }
 }
 
@@ -203,7 +203,7 @@ fun ItemTittleDescription(tittle:String, description: String){
 }
 
 @Composable
-fun LoadListBestMovies(viewModel: HomeViewModel,navController: NavController){
+fun LoadListBestMovies(viewModel: HomeViewModel){
     val movies:List<BestMovies> by viewModel.listFromRoom.observeAsState(initial = emptyList())
 
 
@@ -214,7 +214,7 @@ fun LoadListBestMovies(viewModel: HomeViewModel,navController: NavController){
             ) {
                 items(movies)
                 { movie ->
-                    ListItemsBestMovies(movie, viewModel, navController)
+                    ListItemsBestMovies(movie, viewModel)
                 }
             }
         }
@@ -222,13 +222,13 @@ fun LoadListBestMovies(viewModel: HomeViewModel,navController: NavController){
 }
 
 @Composable
-fun ListItemsBestMovies(movie: BestMovies, viewModel: HomeViewModel, navController: NavController){
+fun ListItemsBestMovies(movie: BestMovies, viewModel: HomeViewModel){
     val urlImage:String = viewModel.urlImage
 
     Column(modifier = Modifier.fillMaxHeight()) {
         Column(modifier = Modifier
             .width(100.dp)
-            .clickable { viewModel.movieDetails(movie, navController) }
+            .clickable { viewModel.movieDetails(movie) }
         ) {
             AsyncImage(
                 model = urlImage + movie.poster_path,
